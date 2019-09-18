@@ -4,6 +4,8 @@ const ctx = canvas.getContext('2d');
 const strip = document.querySelector('.strip');
 const snap = document.querySelector('.snap');
 
+console.log(strip);
+
 function getVideo() {
     // Getting the video and audio from the webcam
     navigator.mediaDevices.getUserMedia({ video: true, audio: false}) // returns a promise
@@ -33,7 +35,7 @@ function paintToCanvas() {
         //pixels = redEffect(pixels);
         //pixels = rgbSplit(pixels);
         //ctx.globalAlpha = 0.1; // sets the alpha(i.e. transparency value)
-        pixels = greenScreen(pixels);
+        //pixels = greenScreen(pixels);
         // put them back
         ctx.putImageData(pixels, 0, 0);
     }, 16); // every 16 milliseconds
@@ -49,10 +51,9 @@ function takePhoto() {
     const link = document.createElement('a'); // backticks don't work here
     link.href = data;
     link.setAttribute('download', 'handsome');
-    link.innerHTML = `<img src ="${data}" alt="Fartface" />`
-    link.textContent = 'Download Image';
-    strip.insertBefore(link, strip.firstChild);
-    
+    link.innerHTML = `<img src="${data}" alt="Fartface" />`
+    // link.textContent = 'Download Image';
+    strip.insertBefore(link, strip.firstChild);   
 }
 
 function redEffect(pixels) {
@@ -70,8 +71,9 @@ function rgbSplit(pixels) {
         pixels.data[i - 150] = pixels.data[i]; // red channel
         pixels.data[i + 100] = pixels.data[i + 1]; // green channel
         pixels.data[i - 150] =  pixels.data[i + 2]; // blue channel
+    }
+    return pixels;
 }
-return pixels;
 
 function greenScreen(pixels) {
     const levels = {}; // holds min and max green (to be replaced by background etc.)
@@ -97,7 +99,7 @@ function greenScreen(pixels) {
             } 
              
     }
-
+    return pixels;
 }
 
 
